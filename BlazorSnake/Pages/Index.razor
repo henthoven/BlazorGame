@@ -1,0 +1,83 @@
+﻿@page "/"
+@using Blazor.Extensions
+@using BlazorSnake.Game
+@using GameEngine
+
+@inject IJSRuntime JsRuntime;
+@inject IServiceProvider ServiceProvider;
+@inject IGameObjectDrawer GameObjectDrawer;
+
+<img @ref="_assetsElement" hidden src="images/assets-128x128.png" />
+<img @ref="_mainMenuAssets" hidden src="images/mainmenu-back.png" />
+<div id="gameContainer">
+    <div id="canvasContainer" @onkeydown="OnKeyDown" @onkeyup="OnKeyUp">
+        <BECanvas @ref="_canvasReference"></BECanvas>
+        <div style="display:none"><BECanvas @ref="_canvasForCacheReference"></BECanvas></div>
+    </div>
+</div>
+
+
+@code
+{
+    BECanvasComponent _canvasReference = null;
+    BECanvasComponent _canvasForCacheReference = null;
+    ElementReference _assetsElement;
+    ElementReference _mainMenuAssets;
+    SnakeGame _snakeGame = null;
+
+    ElementReference _image;
+
+    /// <summary>
+    /// Initialized the canvasses and creates the SnakeGame
+    /// </summary>
+    /// <param name="firstRender">Flag that identifies if this is the first render</param>
+    /// <returns>A completed task</returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        var outputCanvasContext = await _canvasReference.CreateCanvas2DAsync();
+        var outputCanvasForCacheContext = await _canvasForCacheReference.CreateCanvas2DAsync();
+
+        GameObjectDrawer.Initialize(_assetsElement);
+        GameObjectDrawer.AddExtraAsset("MainMenu", _mainMenuAssets);
+
+        _snakeGame = new SnakeGame(ServiceProvider, outputCanvasContext, outputCanvasForCacheContext, 800, 600);
+
+        await JsRuntime.InvokeAsync<object>("initGame", DotNetObjectReference.Create(this));
+    }
+
+    /// <summary>
+    /// This method will be called 60 times per second by the requestanimationframe from javascript.
+    /// </summary>
+    /// <param name="timeStamp">The current timestamp</param>
+    /// <param name="width">The width of the canvas</param>
+    /// <param name="height">The height of the canvas</param>
+    /// <param name="isWindowResized">Flag that indicates if the canvas is resized</param>
+    /// <returns>A completed task</returns>
+    [JSInvokable]
+    public async ValueTask GameLoop(float timeStamp, int width, int height, bool isWindowResized)
+    {
+        await _snakeGame.UpdateLoop(timeStamp, width, height, isWindowResized);
+    }
+
+    /// <summary>
+    /// Will be called when a key is pressed
+    /// </summary>
+    /// <param name="args">Information about the pressed key</param>
+    public void OnKeyDown(KeyboardEventArgs args)
+    {
+        Console.WriteLine(args.Code);
+        _snakeGame.InputManager.SetKeyPressed(InputMapper.Map(args.Code));
+    }
+
+    /// <summary>
+    /// Will be called when a pressed key is released
+    /// </summary>
+    /// <param name="args">Information about the released key</param>
+    public void OnKeyUp(KeyboardEventArgs args)
+    {
+        _snakeGame.InputManager.SetKeyReleased(InputMapper.Map(args.Code));
+    }
+}

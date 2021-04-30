@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Game\LevelData\level1.json" />
+    <Content Remove="Game\LevelData\level2.json" />
+    <Content Remove="Game\LevelData\level3.json" />
+    <Content Remove="Game\LevelData\level4.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Game\LevelData\Assets\wall-128x128.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Game\LevelData\level4.json" />
+    <EmbeddedResource Include="Game\LevelData\level3.json" />
+    <EmbeddedResource Include="Game\LevelData\level2.json" />
+    <EmbeddedResource Include="Game\LevelData\level1.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.4" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GameEngine\GameEngine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Game\LevelData\Assets\wall-128x128.png" />
+  </ItemGroup>
+
+</Project>
