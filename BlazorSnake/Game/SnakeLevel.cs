@@ -178,10 +178,6 @@ namespace BlazorSnake.Game
             _score = 0;
             _levelNumber = 0;
             _started = false;
-
-            //_soundPlayer.OnEnd -= OnSoundPlayerEnd;
-            //Task.Run(async () => await _soundPlayer.Stop());
-            //_soundPlayer.Stop(_levelSoundId);
         }
 
         /// <summary>
@@ -254,7 +250,6 @@ namespace BlazorSnake.Game
             {
                 ResetGame();
             }
-
             if (newState == SnakeGameState.LevelStart)
             {
                 Initialize();
@@ -270,7 +265,6 @@ namespace BlazorSnake.Game
                     await _soundPlayer.Stop(_levelSoundId); 
                     await _soundPlayer.Play("/sounds/gameover.mp3");
                 });
-                //Task.Run(async () => await _soundPlayer.Play("/sounds/gameover.mp3"));
             }
             else if (newState == SnakeGameState.LevelComplete)
             {
@@ -301,7 +295,8 @@ namespace BlazorSnake.Game
                     Y = new Random().Next(1, _levelGridHeight - 1)
                 };
 
-                if (!_levelBlocks.Any(lb => lb.Position.X == newApplePosition.X && lb.Position.Y == newApplePosition.Y))
+                if (!_levelBlocks.Any(lb => lb.GridPosition.X == newApplePosition.X && lb.GridPosition.Y == newApplePosition.Y)
+                    && !_snakeGame.Snake.IsOnGridPosition(newApplePosition.X, newApplePosition.Y))
                 {
                     _levelBlocks.Add(new LevelBlock(_snakeGame, _snakeGame.Canvas, _canvasDrawer, newApplePosition, LevelBlockType.Apple));
                     applePlaced = true;

@@ -109,7 +109,7 @@ namespace BlazorSnake.Game
         /// <param name="timeStamp">The current timestamp</param>
         public override void Update(float timeStamp)
         {
-            _lastPressedKey = _inputManager.LastPressedKey;
+            _lastPressedKey = _inputManager.LastPressedKey;            
             // only update the snake when it is alive and a certain time has passed (to manage the speed of the snake)
             if (_started && IsAlive && (timeStamp - _lastUpdateTime) * _speed > 750f)
             {
@@ -238,6 +238,17 @@ namespace BlazorSnake.Game
                 Grow(3);
                 _snakeGame.Level.EatApple(nextLevelBlock);
             }
+        }
+
+        /// <summary>
+        /// Returns if any part of the snake is on the given position
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool IsOnGridPosition(double x, double y)
+        {
+            return _snakeParts.Any(sp => sp.GridPosition.X == x && sp.GridPosition.Y == y);
         }
         #endregion
     }

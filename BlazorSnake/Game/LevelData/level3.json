@@ -1,9 +1,9 @@
 {
 	"name": "Snakepit!",
-	"appleCount": 4,
+	"appleCount": 10,
 	"timeBonusUntil": 30,
-	"startXPosition": 10,
-	"startYPosition": 10,
+	"startXPosition": 3,
+	"startYPosition": 3,
 	"data": [
 		[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ],
 		[ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ],
