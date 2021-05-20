@@ -1,4 +1,6 @@
 ﻿using GameEngine;
+using GameEngine.Sound;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace BlazorSnake.Game
         private SnakeGame _snakeGame;
         private IInputManager _inputManager;
         private IGameTimer _gameTimer;
+        private ISoundPlayer _soundPlayer;
         private bool _bonusReceived;
         private int _bonus;
 
@@ -25,8 +28,9 @@ namespace BlazorSnake.Game
         public SnakeLevelComplete(IServiceProvider serviceProvider, SnakeGame snakeGame)
         {
             _snakeGame = snakeGame;
-            _inputManager = (IInputManager)serviceProvider.GetService(typeof(IInputManager));
-            _gameTimer = (IGameTimer)serviceProvider.GetService(typeof(IGameTimer));
+            _inputManager = serviceProvider.GetRequiredService<IInputManager>();
+            _gameTimer = serviceProvider.GetRequiredService<IGameTimer>();
+            _soundPlayer = serviceProvider.GetRequiredService<ISoundPlayer>();
         }
 
         /// <summary>
@@ -82,7 +86,6 @@ namespace BlazorSnake.Game
             if (newState == SnakeGameState.LevelComplete)
             {
                 Initialize();
-                _inputManager.ResetLastPressedKey();
             }
             base.OnEnterState(previousState, newState);
         }
@@ -94,6 +97,7 @@ namespace BlazorSnake.Game
         {
             _bonusReceived = false;
             _bonus = 0;
+            _inputManager.ResetLastPressedKey();            
         }
     }
 }

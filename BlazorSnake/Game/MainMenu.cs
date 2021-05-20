@@ -1,4 +1,6 @@
 ﻿using GameEngine;
+using Howler.Blazor.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,7 @@ namespace BlazorSnake.Game
         private SnakeGame _snakeGame;
         private IInputManager _inputManager;
         private IGameObjectDrawer _gameObjectDrawer;
+        private IHowl _soundPlayer;
         private List<MenuItem> _menuItems = new List<MenuItem>();
         private int _selectedMenuItemIndex;
 
@@ -30,8 +33,9 @@ namespace BlazorSnake.Game
                 new MenuItem("Start new game", StartNewGame, true),
                 new MenuItem("Credits", OpenCredits)
             });
-            _inputManager = (IInputManager)serviceProvider.GetService(typeof(IInputManager));
-            _gameObjectDrawer = (IGameObjectDrawer)serviceProvider.GetService(typeof(IGameObjectDrawer));
+            _inputManager = serviceProvider.GetRequiredService<IInputManager>();
+            _gameObjectDrawer = serviceProvider.GetRequiredService<IGameObjectDrawer>();
+            _soundPlayer = serviceProvider.GetRequiredService<IHowl>();
 
             AssetSourceSize = new Size(800, 600);
             Size = new Size(700, 800);
@@ -112,6 +116,7 @@ namespace BlazorSnake.Game
             if (newState == SnakeGameState.MainMenu)
             {
                 _inputManager.ResetLastPressedKey();
+                //Task.Run(async () => await _soundPlayer.Play("/sounds/mainmenu.mp3"));
             }
 
             base.OnEnterState(previousState, newState);

@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,8 +42,8 @@ namespace BlazorSnake.Game
         public Snake(IServiceProvider serviceProvider, SnakeGame snakeGame)
         {
             _snakeGame = snakeGame;
-            _inputManager = (IInputManager)serviceProvider.GetService(typeof(IInputManager));
-            _gameObjectDrawer = (IGameObjectDrawer)serviceProvider.GetService(typeof(IGameObjectDrawer));
+            _inputManager = serviceProvider.GetRequiredService<IInputManager>();
+            _gameObjectDrawer = serviceProvider.GetRequiredService<IGameObjectDrawer>();
             _startPosition = _snakeGame.Level.StartPosition ?? new Point { X = 10, Y = 10 };
 
             Initialize();

@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+using GameEngine.Sound;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace BlazorSnake.Game
         private SnakeGame _snakeGame;
         private IGameTimer _gameTimer;
         private IInputManager _inputManager;
+        private ISoundPlayer _soundPlayer;
         private DateTime _startTime;
         private int _secondsLeft;
         private int _elapsedSeconds;
@@ -30,6 +32,7 @@ namespace BlazorSnake.Game
             _snakeGame = snakeGame;
             _gameTimer = (IGameTimer)serviceProvider.GetService(typeof(IGameTimer));
             _inputManager = (IInputManager)serviceProvider.GetService(typeof(IInputManager));
+            _soundPlayer = (ISoundPlayer)serviceProvider.GetService(typeof(ISoundPlayer));
         }
 
         /// <summary>
@@ -89,7 +92,6 @@ namespace BlazorSnake.Game
             if (newState == SnakeGameState.LevelStart)
             {
                 Initialize();
-                _inputManager.ResetLastPressedKey();
             }
             base.OnEnterState(previousState, newState);
         }
@@ -102,6 +104,9 @@ namespace BlazorSnake.Game
             _startTime = DateTime.Now;
             _secondsLeft = SECONDS_BEFORE_START;
             _gameTimer.Reset();
+            _inputManager.ResetLastPressedKey();
+
+            _soundPlayer.Play("/sounds/321go.mp3");
         }
     }
 }

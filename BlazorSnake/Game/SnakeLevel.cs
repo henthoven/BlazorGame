@@ -1,4 +1,8 @@
 ﻿using GameEngine;
+using GameEngine.Sound;
+using Howler.Blazor.Components;
+using Howler.Blazor.Components.Events;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,6 +23,7 @@ namespace BlazorSnake.Game
         private List<LevelBlock> _levelBlocks = new List<LevelBlock>();
         private IGameObjectDrawer _canvasDrawer;
         private IGameTimer _gameTimer;
+        private ISoundPlayer _soundPlayer;
 
         private int _applesEaten;
         private int _levelGridWidth;
@@ -27,6 +32,7 @@ namespace BlazorSnake.Game
         private int _score = 0;
         private bool _started;
         private bool _firstRender = true;
+        private int _levelSoundId;
 
         /// <summary>
         /// Returns the size of a block in the level grid
@@ -69,8 +75,9 @@ namespace BlazorSnake.Game
         public SnakeLevel(IServiceProvider serviceProvider, SnakeGame snakeGame)
         {
             _snakeGame = snakeGame;
-            _gameTimer = (IGameTimer)serviceProvider.GetService(typeof(IGameTimer));
-            _canvasDrawer = (IGameObjectDrawer)serviceProvider.GetService(typeof(IGameObjectDrawer));
+            _gameTimer = serviceProvider.GetRequiredService<IGameTimer>();
+            _canvasDrawer = serviceProvider.GetRequiredService<IGameObjectDrawer>();
+            _soundPlayer = serviceProvider.GetRequiredService<ISoundPlayer>();
 
             // background asset
             AssetSourcePosition = new Point(128, 384);
@@ -144,7 +151,8 @@ namespace BlazorSnake.Game
         /// </summary>
         public void Start()
         {
-            _started = true;            
+            _started = true;
+            Task.Run(async () => _levelSoundId = await _soundPlayer.Play("/sounds/levelbackgroundmusic.mp3", true));
         }
 
         /// <summary>
@@ -157,6 +165,8 @@ namespace BlazorSnake.Game
             _applesEaten++;
             AddScore(25);
 
+            Task.Run(async () => await _soundPlayer.Play("/sounds/eatapple.mp3"));
+
             AddNewApple();
         }
 
@@ -168,6 +178,10 @@ namespace BlazorSnake.Game
             _score = 0;
             _levelNumber = 0;
             _started = false;
+
+            //_soundPlayer.OnEnd -= OnSoundPlayerEnd;
+            //Task.Run(async () => await _soundPlayer.Stop());
+            //_soundPlayer.Stop(_levelSoundId);
         }
 
         /// <summary>
@@ -249,6 +263,24 @@ namespace BlazorSnake.Game
             {
                 Start();
             }            
+            else if (newState == SnakeGameState.GameOver)
+            {
+                Task.Run(async () =>
+                {
+                    await _soundPlayer.Stop(_levelSoundId); 
+                    await _soundPlayer.Play("/sounds/gameover.mp3");
+                });
+                //Task.Run(async () => await _soundPlayer.Play("/sounds/gameover.mp3"));
+            }
+            else if (newState == SnakeGameState.LevelComplete)
+            {
+                Task.Run(async () =>
+                {
+                    await _soundPlayer.Stop(_levelSoundId);
+                    await _soundPlayer.Play("/sounds/levelcomplete.mp3");
+                });
+
+            }
             
             base.OnEnterState(previousState, newState);
         }

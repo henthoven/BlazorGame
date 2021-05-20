@@ -1,4 +1,6 @@
 using GameEngine;
+using GameEngine.Sound;
+using Howler.Blazor.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,10 @@ namespace BlazorSnake
             builder.Services.AddScoped<IGameTime, GameTime>();
             builder.Services.AddScoped<IGameTimer, GameTimer>();
             builder.Services.AddScoped<IGameObjectDrawer, GameObjectDrawer>();
+            builder.Services.AddScoped<ISoundPlayer, SoundPlayer>();
+
+            builder.Services.AddScoped<IHowl, Howl>();
+            builder.Services.AddScoped<IHowlGlobal, HowlGlobal>();
 
             await builder.Build().RunAsync();
         }

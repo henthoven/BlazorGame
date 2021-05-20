@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace BlazorSnake.Game
         public GameOver(IServiceProvider serviceProvider, SnakeGame snakeGame)
         {
             _snakeGame = snakeGame;
-            _inputManager = (IInputManager)serviceProvider.GetService(typeof(IInputManager));
+            _inputManager = serviceProvider.GetRequiredService<IInputManager>();
         }
 
         /// <summary>
