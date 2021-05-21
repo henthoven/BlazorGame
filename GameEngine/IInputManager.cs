@@ -33,5 +33,9 @@
         /// Resets the last pressed key
         /// </summary>
         void ResetLastPressedKey();
+
+        void SetTouchEnter(double xPosition, double yPosition);
+
+        void SetTouchEnd(double xPosition, double yPosition);
     }
 }

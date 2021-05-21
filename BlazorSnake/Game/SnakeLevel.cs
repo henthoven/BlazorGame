@@ -217,8 +217,8 @@ namespace BlazorSnake.Game
 
             await _snakeGame.Canvas.FillTextAsync($"Level {_levelNumber}: {Name}", 40, _snakeGame.GameHeight + 40);
             await _snakeGame.Canvas.FillTextAsync($"Apples left: {ApplesLeft}", 40, _snakeGame.GameHeight + 80);
-            await _snakeGame.Canvas.FillTextAsync($"Score: {_score}", _snakeGame.Size.Width - 100, _snakeGame.GameHeight + 40);
-            await _snakeGame.Canvas.FillTextAsync($"Time: {_gameTimer.GetElapsedTimeInSeconds(timeStamp)}", _snakeGame.Size.Width - 100, _snakeGame.GameHeight + 80);
+            await _snakeGame.Canvas.FillTextAsync($"Score: {_score}", _snakeGame.Size.Width - 120, _snakeGame.GameHeight + 40);
+            await _snakeGame.Canvas.FillTextAsync($"Time: {_gameTimer.GetElapsedTimeInSeconds(timeStamp)}", _snakeGame.Size.Width - 120, _snakeGame.GameHeight + 80);
 
         }
 

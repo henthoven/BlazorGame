@@ -41,5 +41,36 @@ namespace GameEngine
 
         /// <inheritdoc/>
         public KeyCode LastPressedKey => _lastPressedKey;
+
+        private Point? _touchStart;
+
+        public void SetTouchEnter(double xPosition, double yPosition)
+        {
+            _touchStart = new Point(xPosition, yPosition);
+        }
+
+        public void SetTouchEnd(double xPosition, double yPosition)
+        {
+            if (_touchStart != null)
+            {
+                double xDifference = _touchStart.Value.X - xPosition;
+                double yDifference = _touchStart.Value.Y - yPosition;
+                if (Math.Abs(xDifference) > Math.Abs(yDifference)) // move over x axis
+                {
+                    if (xDifference > 100)
+                        _lastPressedKey = KeyCode.Left;
+                    else if (xDifference < -100)
+                        _lastPressedKey = KeyCode.Right;
+                }
+                else // move over y axis
+                {
+                    if (yDifference > 100)
+                        _lastPressedKey = KeyCode.Up;
+                    else if (yDifference < -100)
+                        _lastPressedKey = KeyCode.Down;
+                }
+            }
+            _touchStart = null;
+        }        
     }
 }
