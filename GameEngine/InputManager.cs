@@ -62,12 +62,16 @@ namespace GameEngine
                     else if (xDifference < -100)
                         _lastPressedKey = KeyCode.Right;
                 }
-                else // move over y axis
+                else if (Math.Abs(xDifference) < Math.Abs(yDifference)) // move over y axis
                 {
                     if (yDifference > 100)
                         _lastPressedKey = KeyCode.Up;
                     else if (yDifference < -100)
                         _lastPressedKey = KeyCode.Down;
+                }
+                else
+                {
+                    _lastPressedKey = KeyCode.Enter;
                 }
             }
             _touchStart = null;
