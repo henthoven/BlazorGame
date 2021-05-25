@@ -201,6 +201,8 @@ namespace BlazorSnake.Game
                 await _canvasDrawer.DrawAsset(_snakeGame.CanvasForCache, this);
                 foreach (var levelBlock in _levelBlocks)
                 {
+                    levelBlock.Size = _snakeGame.Level.BlockSize;
+                    levelBlock.Position = new Point(levelBlock.GridPosition.X * _snakeGame.Level.BlockWidth, levelBlock.GridPosition.Y * _snakeGame.Level.BlockHeight);
                     await levelBlock.Render(timeStamp);
                 }
                 await _snakeGame.CanvasForCache.EndBatchAsync();

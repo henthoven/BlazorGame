@@ -91,11 +91,11 @@ namespace GameEngine
         /// <param name="timeStamp">The current timestamp</param>
         /// <param name="width">The width</param>
         /// <param name="height">The height</param>
-        /// <param name="isWindowsResized">Flag if the game is resized</param>
+        /// <param name="isWindowResized">Flag if the game is resized</param>
         /// <returns>A completed task</returns>
-        public async Task UpdateLoop(float timeStamp, int width, int height, bool isWindowsResized = false)
+        public async Task UpdateLoop(float timeStamp, int width, int height, bool isWindowResized)
         {
-            IsResized = isWindowsResized; 
+            IsResized = isWindowResized; 
             Size = new Size(width, height);
 
             GameTime.SetTimeStamp(timeStamp);

@@ -15,7 +15,7 @@ namespace GameEngine
         /// <summary>
         /// The position to render this object on the target canvas
         /// </summary>
-        public Point Position { get; protected set; }
+        public Point Position { get; set; }
         /// <summary>
         /// The size of the asset in the source image
         /// </summary>
@@ -23,7 +23,7 @@ namespace GameEngine
         /// <summary>
         /// The size to render the image at the target canvas
         /// </summary>
-        public Size Size { get; protected set; }
+        public Size Size { get; set; }
     
         /// <summary>
         /// Updates this GameObject

@@ -30,12 +30,11 @@
             if (!window.game.canvasses && !window.game.canvases.length)
                 return;
             window.game.isWindowResized = true;
-            if (window.innerWidth > 100 && window.innerWidth <= 600) {
-                game.canvases[0].width = window.innerWidth - 100;
-                game.canvases[1].width = window.innerWidth - 100;
-                game.canvases[0].height = window.innerWidth - 100;
-                game.canvases[1].height = window.innerWidth - 100;
-            }
+            var widthHeight = Math.min(window.innerWidth, 600);
+            game.canvases[0].width = widthHeight;
+            game.canvases[1].width = widthHeight; 
+            game.canvases[0].height = widthHeight + 100;
+            game.canvases[1].height = widthHeight + 100;
         }
 
         // the main gameloop. Will be called 60 times per second by requestAnimationFrame
@@ -49,25 +48,31 @@
         window.initGame = (instance) => {
             var canvasContainer = document.getElementById('canvasContainer'),
                 canvases = canvasContainer.getElementsByTagName('canvas') || [];
+
+            canvasContainer.addEventListener('touchstart', function (e) {
+                console.log('touch start', e);
+                instance.invokeMethodAsync('OnTouchStart', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            });
+            canvasContainer.addEventListener('touchend', function (e) {
+                console.log('touch end', e);
+                instance.invokeMethodAsync('OnTouchEnd', e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+            });
+
             window.game = {
                 instance: instance,
-                canvases: canvases
+                canvases: canvases,
+                isWindowResized: true
             };
 
             window.game.canvases[0].onblur = (e) => {
                 window.game.canvases[0].focus();
             };
 
-            game.canvases[0].width = document.getElementById("canvasContainer").clientWidth - 100;
-            game.canvases[0].height = document.getElementById("canvasContainer").clientWidth - 100;
-            game.canvases[1].width = document.getElementById("canvasContainer").clientWidth - 100;
-            game.canvases[1].height = document.getElementById("canvasContainer").clientWidth - 100;
-
             window.game.canvases[0].tabIndex = 0;
             window.game.canvases[0].focus();
 
-            //window.addEventListener("resize", onResize);
-            //onResize();
+            window.addEventListener("resize", onResize);
+            onResize();
 
             window.requestAnimationFrame(gameLoop);
         };

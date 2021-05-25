@@ -6,6 +6,8 @@ html, body {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+
+    overflow:hidden;
 }
 
 a, .btn-link {
@@ -60,7 +62,7 @@ a, .btn-link {
 }
 
 #canvasContainer {
-    width: 800px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
     margin: auto;
 }

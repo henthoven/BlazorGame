@@ -10,7 +10,7 @@
 <img @ref="_assetsElement" hidden src="images/assets-128x128.png" />
 <img @ref="_mainMenuAssets" hidden src="images/mainmenu-back.png" />
 <div id="gameContainer">
-    <div id="canvasContainer" @onkeydown="OnKeyDown" @onkeyup="OnKeyUp" @ontouchenter="OnTouchEnter" @ontouchleave="OnTouchLeave" @onmousedown="OnMouseDown" @onmouseup="OnMouseUp">
+    <div id="canvasContainer" @onkeydown="OnKeyDown" @onkeyup="OnKeyUp" @onmousedown="OnMouseDown" @onmouseup="OnMouseUp"> @*ontouchenter="OnTouchEnter" ontouchleave="OnTouchLeave"*@ 
         <BECanvas @ref="_canvasReference"></BECanvas>
         <div style="display:none"><BECanvas @ref="_canvasForCacheReference"></BECanvas></div>
     </div>
@@ -81,14 +81,18 @@
         _snakeGame.InputManager.SetKeyReleased(InputMapper.Map(args.Code));
     }
 
-    public void OnTouchEnter(TouchEventArgs args)
+    [JSInvokable]
+    public void OnTouchStart(double xPosition, double yPosition)    //public void OnTouchStart(TouchEventArgs args)
     {
-        _snakeGame.InputManager.SetTouchEnter((double)args.Touches.FirstOrDefault()?.ClientX, (double)args.Touches.FirstOrDefault()?.ClientY);
+        //_snakeGame.InputManager.SetTouchEnter((double)args.ChangedTouches?.FirstOrDefault()?.ClientX, (double)args.Touches.FirstOrDefault()?.ClientY);
+        _snakeGame.InputManager.SetTouchEnter(xPosition, yPosition);
     }
 
-    public void OnTouchLeave(TouchEventArgs args)
+    [JSInvokable]
+    public void OnTouchEnd(double xPosition, double yPosition) //(TouchEventArgs args)
     {
-        _snakeGame.InputManager.SetTouchEnd((double)args.Touches.FirstOrDefault()?.ClientX, (double)args.Touches.FirstOrDefault()?.ClientY);
+        //_snakeGame.InputManager.SetTouchEnd((double)args.ChangedTouches?.FirstOrDefault()?.ClientX, (double)args.Touches.FirstOrDefault()?.ClientY);
+        _snakeGame.InputManager.SetTouchEnd(xPosition, yPosition);
     }
 
     public void OnMouseDown(MouseEventArgs args)
