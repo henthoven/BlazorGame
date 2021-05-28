@@ -9,6 +9,8 @@
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
     <link href="css/app.css" rel="stylesheet" />
     <link href="BlazorSnake.styles.css" rel="stylesheet" />
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
 </head>
 
 <body>
@@ -19,7 +21,14 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
+    <!-- Needed for pwa -->
+    <link href="manifest.json" rel="manifest" />
+    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
+    <!-- End needed for pwa -->
+
     <script src="_framework/blazor.webassembly.js"></script>
+    <script>navigator.serviceWorker.register('service-worker.js');</script>
 
     <script src="_content/Blazor.Extensions.Canvas/blazor.extensions.canvas.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.core.min.js" integrity="sha256-q2vnVvwrx3RbYXPyAwx7c2npmULQg2VdCXBoJ5+iigs=" crossorigin="anonymous"></script>
@@ -32,7 +41,7 @@
             window.game.isWindowResized = true;
             var widthHeight = Math.min(window.innerWidth, 600);
             game.canvases[0].width = widthHeight;
-            game.canvases[1].width = widthHeight; 
+            game.canvases[1].width = widthHeight;
             game.canvases[0].height = widthHeight + 100;
             game.canvases[1].height = widthHeight + 100;
         }

@@ -42,7 +42,7 @@ namespace BlazorSnake.Game
         {
             await _snakeGame.Canvas.BeginPathAsync();
             await _snakeGame.Canvas.RectAsync(_snakeGame.Size.Width / 2 - 200, _snakeGame.GameHeight / 2 - 50, 400, 100);
-            await _snakeGame.Canvas.SetFillStyleAsync("black"); // TODO
+            await _snakeGame.Canvas.SetFillStyleAsync("brown"); // TODO
             await _snakeGame.Canvas.FillAsync();
 
             await _snakeGame.Canvas.BeginPathAsync();

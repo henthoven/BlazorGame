@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,6 +10,7 @@
     <Content Remove="Game\LevelData\level2.json" />
     <Content Remove="Game\LevelData\level3.json" />
     <Content Remove="Game\LevelData\level4.json" />
+    <Content Remove="wwwroot\service-worker.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +24,11 @@
     <EmbeddedResource Include="Game\LevelData\level1.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js"
+      PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Blazor.Extensions.Canvas" Version="1.1.1" />
     <PackageReference Include="Howler.Blazor" Version="0.9.7" />
