@@ -10,10 +10,16 @@
 <img @ref="_assetsElement" hidden src="images/assets-128x128.png" />
 <img @ref="_mainMenuAssets" hidden src="images/mainmenu-back.png" />
 <div id="gameContainer">
-    <div id="canvasContainer" @onkeydown="OnKeyDown" @onkeyup="OnKeyUp" @onmousedown="OnMouseDown" @onmouseup="OnMouseUp"> @*ontouchenter="OnTouchEnter" ontouchleave="OnTouchLeave"*@ 
+    <div id="canvasContainer" @onkeydown="OnKeyDown" @onkeyup="OnKeyUp" @onmousedown="OnMouseDown" @onmouseup="OnMouseUp">
+        @*ontouchenter="OnTouchEnter" ontouchleave="OnTouchLeave"*@
         <BECanvas @ref="_canvasReference"></BECanvas>
         <div style="display:none"><BECanvas @ref="_canvasForCacheReference"></BECanvas></div>
     </div>
+</div>
+<div id="gameInstructions">
+    <h5>Use <b>keybord arrows</b> or <b>swipe</b> to move. </h5>
+    <h5>Press <b>A</b> to speed up and <b>Z</b> to slow down.</h5>
+    <h5>Collect all the apples in a level to move to the next level. If you do it fast enough you will get a time bonus.</h5>
 </div>
 
 

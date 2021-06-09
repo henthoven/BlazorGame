@@ -30,8 +30,7 @@ namespace BlazorSnake.Game
             _snakeGame = snakeGame;
             _menuItems.AddRange(new List<MenuItem>
             {
-                new MenuItem("Start new game", StartNewGame, true),
-                new MenuItem("Credits", OpenCredits)
+                new MenuItem("Press a key or touch to start!", StartNewGame, true),
             });
             _inputManager = serviceProvider.GetRequiredService<IInputManager>();
             _gameObjectDrawer = serviceProvider.GetRequiredService<IGameObjectDrawer>();
@@ -48,6 +47,7 @@ namespace BlazorSnake.Game
         /// <returns>A completed task</returns>
         public async override Task Render(float timeStamp)
         {
+            Size = _snakeGame.Size;
             await _snakeGame.Canvas.BeginPathAsync();
             await _snakeGame.Canvas.SetFillStyleAsync("Green");
             await _snakeGame.Canvas.SetFontAsync("60px Comic Sans MS");
@@ -64,9 +64,9 @@ namespace BlazorSnake.Game
             int menuItemDistance = 80;
             int index = 1;
             foreach (var menuItem in _menuItems)
-            {                
-                await _snakeGame.Canvas.SetFillStyleAsync(menuItem.IsSelected ? "Green": "White");
-                await _snakeGame.Canvas.FillTextAsync(menuItem.Content, _snakeGame.Size.Width / 2 - 130, _snakeGame.GameHeight / 2 + menuItemDistance * ++index);
+            {   
+                await _snakeGame.Canvas.SetFillStyleAsync("lightyellow");
+                await _snakeGame.Canvas.FillTextAsync(menuItem.Content, _snakeGame.Size.Width / 2 - 210, _snakeGame.GameHeight / 2 + menuItemDistance * ++index);
             }
 
             await _snakeGame.Canvas.FillAsync();
@@ -116,7 +116,6 @@ namespace BlazorSnake.Game
             if (newState == SnakeGameState.MainMenu)
             {
                 _inputManager.ResetLastPressedKey();
-                //Task.Run(async () => await _soundPlayer.Play("/sounds/mainmenu.mp3"));
             }
 
             base.OnEnterState(previousState, newState);
@@ -129,13 +128,6 @@ namespace BlazorSnake.Game
         {
             _snakeGame.ChangeState(SnakeGameState.LevelStart);
         }
-
-        /// <summary>
-        /// Opens the credits screen
-        /// </summary>
-        private void OpenCredits()
-        {
-
-        }
+      
     }
 }

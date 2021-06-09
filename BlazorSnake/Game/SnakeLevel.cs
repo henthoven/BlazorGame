@@ -94,7 +94,7 @@ namespace BlazorSnake.Game
             // temp
             if (_levelNumber > 4)
                 _levelNumber = 1;
-            //_levelNumber = 3;
+            //_levelNumber = 4;
             _levelBlocks = new List<LevelBlock>();
             _levelData = LoadLevelData(_levelNumber);
             _levelGridWidth = _levelData.Data.First().Count();
