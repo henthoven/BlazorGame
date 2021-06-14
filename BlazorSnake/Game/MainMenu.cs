@@ -30,7 +30,7 @@ namespace BlazorSnake.Game
             _snakeGame = snakeGame;
             _menuItems.AddRange(new List<MenuItem>
             {
-                new MenuItem("Press a key or touch to start!", StartNewGame, true),
+                new MenuItem("Press a key or touch to start!", StartNewGame, true, true),
             });
             _inputManager = serviceProvider.GetRequiredService<IInputManager>();
             _gameObjectDrawer = serviceProvider.GetRequiredService<IGameObjectDrawer>();
@@ -64,9 +64,12 @@ namespace BlazorSnake.Game
             int menuItemDistance = 80;
             int index = 1;
             foreach (var menuItem in _menuItems)
-            {   
+            {
                 await _snakeGame.Canvas.SetFillStyleAsync("lightyellow");
-                await _snakeGame.Canvas.FillTextAsync(menuItem.Content, _snakeGame.Size.Width / 2 - 210, _snakeGame.GameHeight / 2 + menuItemDistance * ++index);
+                if (!menuItem.Blink || (menuItem.Blink && (int)timeStamp / 300 % 2 == 0))
+                {
+                    await _snakeGame.Canvas.FillTextAsync(menuItem.Content, _snakeGame.Size.Width / 2 - 210, _snakeGame.GameHeight / 2 + 100 + menuItemDistance * ++index);
+                }
             }
 
             await _snakeGame.Canvas.FillAsync();

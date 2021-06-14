@@ -17,11 +17,13 @@ namespace GameEngine
         /// <param name="content">The content to show</param>
         /// <param name="action">The action to executed when the item is chosen</param>
         /// <param name="isSelected">Indicates if the item is default selected</param>
-        public MenuItem(string content, Action action, bool isSelected = false)
+        /// <param name="blink">Indicates if the text should blink</param>
+        public MenuItem(string content, Action action, bool isSelected = false, bool blink = false)
         {
             Content = content;
             Action = action;
             IsSelected = isSelected;
+            Blink = blink;
         }
 
         /// <summary>
@@ -38,5 +40,10 @@ namespace GameEngine
         /// The action to execute when chosen
         /// </summary>
         public Action Action { get; private set; }
+
+        /// <summary>
+        /// Indicates if the text should blink
+        /// </summary>
+        public bool Blink { get; set; }
     }
 }
