@@ -55,6 +55,10 @@ namespace GameEngine
             {
                 double xDifference = _touchStart.Value.X - xPosition;
                 double yDifference = _touchStart.Value.Y - yPosition;
+
+                // TODO: At this moment the touch end simulates that a Key was pressed. This is not correct
+                // and only implemented for demo purposes now. Touch should set different inputs where the game
+                // can act on.
                 if (Math.Abs(xDifference) > Math.Abs(yDifference)) // move over x axis
                 {
                     if (xDifference > 100)
