@@ -218,7 +218,7 @@ namespace BlazorSnake.Game
             int minSpeed = 3;
             if (_inputManager.IsPressed(KeyCode.A) && _speed < maxSpeed)
                 _speed += 1;
-            if (_inputManager.IsPressed(KeyCode.Z) & _speed > minSpeed)
+            if (_inputManager.IsPressed(KeyCode.Z) && _speed > minSpeed)
                 _speed -= 1;
         }
 
